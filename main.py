@@ -1,28 +1,23 @@
-import os
 import sys
 import json
 import time
 import requests
 import websocket
-from keep_alive import keep_alive
 
-status = "online" #online/dnd/idle
+status = "online"
 
 custom_status = "youtube.com/@SealedSaucer" #If you don't need a custom status on your profile, just put "" instead of "youtube.com/@SealedSaucer"
 
-usertoken = os.getenv("TOKEN")
-if not usertoken:
-    print("[ERROR] Please add a token inside Secrets.")
-    sys.exit()
+usertoken = "Add your token here"
 
 headers = {"Authorization": usertoken, "Content-Type": "application/json"}
 
-validate = requests.get("https://canary.discordapp.com/api/v9/users/@me", headers=headers)
+validate = requests.get('https://discordapp.com/api/v9/users/@me', headers=headers)
 if validate.status_code != 200:
-    print("[ERROR] Your token might be invalid. Please check it again.")
-    sys.exit()
+  print("[ERROR] Your token might be invalid. Please check it again.")
+  sys.exit()
 
-userinfo = requests.get("https://canary.discordapp.com/api/v9/users/@me", headers=headers).json()
+userinfo = requests.get('https://discordapp.com/api/v9/users/@me', headers=headers).json()
 username = userinfo["username"]
 discriminator = userinfo["discriminator"]
 userid = userinfo["id"]
@@ -75,11 +70,9 @@ def onliner(token, status):
     ws.send(json.dumps(online))
 
 def run_onliner():
-    os.system("clear")
-    print(f"Logged in as {username}#{discriminator} ({userid}).")
-    while True:
-        onliner(usertoken, status)
-        time.sleep(50)
+  print(f"Logged in as {username}#{discriminator} ({userid}).")
+  while True:
+    onliner(usertoken, status)
+    time.sleep(50)
 
-keep_alive()
 run_onliner()
